@@ -3,13 +3,14 @@ div.article
     div.created_at= article.created_at
     div.title= article.title
     div.body= article.body
-    - each comment in article.comments
+
+    - each comment in comments
       div.comment
-        div.person= comment.person
+        div.person= comment.name
         div.comment= comment.comment
     div
       form( method="post", action="/article/addComment")
-        input( type="hidden", name="_id", value=article._id.toHexString())
+        input( type="hidden", name="_id", value=article._id.toString())
         div
           span Author :
           input( type="text", name="person", id="addCommentPerson")

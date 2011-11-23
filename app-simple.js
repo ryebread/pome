@@ -58,11 +58,15 @@ app.post('/article/addComment',function(req,res){
 });
 
 app.get('/article/:id',function(req,res){
-    articleProvider.findById(req.params.id,function(error,article){
+    articleProvider.findById(req.params.id,function(error,article,comment){
+        console.log("log findByID:");
+        console.log(article);
+        console.log(comment);
         res.render('article_show.jade',
                    {locals:{
                        title: article.title,
-                       article:article
+                       article:article,
+                       comments:comment
                    }
                    });
     });
