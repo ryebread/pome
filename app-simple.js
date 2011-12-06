@@ -8,6 +8,8 @@ app.configure(function(){
   app.set('view engine','jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(express.cookieParser());
+  app.use(express.session({secret:"jklj;kjl;jkfdas"}));
   app.use(app.router);
   app.use(express.static(__dirname+'/public'));
 });
@@ -22,23 +24,45 @@ app.configure('production',function(){
 
 var articleProvider= new ArticleProvider();
 
-app.get('/',function(req,res){
+function logged_in(req,res,next){
+    if(req.session.is_logged_in === true){
+        next();
+}else{
+    res.redirect('/login');
+};
+};
+app.get('/',logged_in,function(req,res){
   articleProvider.findAll(function(error,docs){
     res.render('index.jade',{locals:{
-      title: 'Blog',
+      title: 'Articles',
       articles:docs
     }
                             });
   });
 });
 
+app.get("/login",function(req,res){
+    res.render("login",{locals:{
+        title:"Login"
+    }});
+});
+app.post("/login",function(req,res){
+    if(req.param('user')=="admin" && req.param('password')=="admin")
+        req.session.is_logged_in = true;
+    res.redirect('/');
+});
+app.get("/about",function(req,res){
+    res.render("about",{locals:{
+        title:"关于"
+    }});
+});
 
 app.get("/article/new",function(req,res){
   res.render("article_new",{locals:{
     title:"New Article"
   }});
 });
-app.post("/article/new",function(req,res){
+app.post("/article/new",logged_in,function(req,res){
   articleProvider.save({
     title: req.param('title'),
     body: req.param('body')
@@ -47,17 +71,17 @@ app.post("/article/new",function(req,res){
   });
 });
 
-app.post('/article/addComment',function(req,res){
+app.post('/article/addComment',logged_in,function(req,res){
     articleProvider.addCommentToArticle(req.param('_id'),{
         person: req.param('person'),
         comments: req.param('comment'),
         created_at: new Date()
         },function(error,docs){
-            res.redirect('/article/'+req.param('_id'))
+            res.redirect('/article/'+req.param('_id'));
         });
 });
 
-app.get('/article/:id',function(req,res){
+app.get('/article/:id',logged_in,function(req,res){
     articleProvider.findById(req.params.id,function(error,article,comment){
         console.log("log findByID:");
         console.log(article);

@@ -3,5 +3,17 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body!= body
-p(align='center')  LIUBIN@2011
+    link(rel='stylesheet', href='/stylesheets/bootstrap.css')
+  body
+    div.topbar
+      div.topbar-inner
+        div.container-fluid
+          a.brand(href="#") Pome
+          ul.nav
+            li.active
+              a(href="/") Home
+            li
+              a(href="/about") About
+    != body
+
+p(align='center')  LIUBIN@2011--Practice of master education

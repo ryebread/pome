@@ -2,6 +2,7 @@ h1= title
 div.article
     div.created_at= article.created_at
     div.title= article.title
+      a(href="/article/"+article._id.toString()+"/del")!="Delete article"
     div.body= article.body
 
     - each comment in comments

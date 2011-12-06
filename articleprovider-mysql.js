@@ -26,15 +26,13 @@ ArticleProvider.prototype.findById=function(id,callback){
                                        function(err,comments,fields){
                                            if(err)callback(err);
                                            else 
-                                               {
-                                                   callback(null,results[0],comments)};
+                                               callback(null,results[0],comments);
                                        });
                  });
 };
 
 ArticleProvider.prototype.save=function(article, callback){
     article.created_at= new Date();
-    console.log(article);
     client.query('INSERT INTO '+ TABLE +
                  ' SET title = ?,body = ?,created_at=? ',
                  [article.title,article.body,article.created_at],
@@ -42,6 +40,16 @@ ArticleProvider.prototype.save=function(article, callback){
                      if(err)callback(err);
                      else callback(null,article);
                  });
-}
+};
+
+ArticleProvider.prototype.addCommentToArticle=function(id,comment,callback){
+    client.query('INSERT INTO comment '+ 
+                 ' SET aid=? ,name=?,comment=?,created_at=?',
+                [id,comment.person,comment.comments,comment.created_at],
+                function(error,results,fields){
+                    if(error)callback(error);
+                    else callback(null,comment);
+                });
+};
 
 exports.ArticleProvider=ArticleProvider;
