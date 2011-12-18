@@ -1,14 +1,21 @@
 h1= title
 div.article
     div.created_at= article.created_at
-    div.title= article.title
-      a(href="/article/"+article._id.toString()+"/del")!="Delete article"
+    h2
+      div.title= article.title
+        h4
+          a(href="/article/"+article._id.toString()+"/del")!="Delete article"
     div.body= article.body
+    p
+      h3
+        | Comments:
 
     - each comment in comments
       div.comment
-        div.person= comment.name
+        h3
+          div.person= comment.name+":"
         div.comment= comment.comment
+        p
     div
       form( method="post", action="/article/addComment")
         input( type="hidden", name="_id", value=article._id.toString())

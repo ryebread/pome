@@ -5,7 +5,9 @@ div.add
 #articles
     - each article in articles
       div.article
-        div.created_at= article.created_at
-        div.title 
+        div.title
+          h2
             a(href="/article/"+article._id.toString())!= article.title
         div.body= article.body
+        p
+          div.created_at= article.created_at
