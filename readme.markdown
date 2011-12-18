@@ -6,5 +6,10 @@ Practice of my master’s education
 运行环境搭建比较麻烦，可参考 http://expressjs.com/guide.html#installation.
 如不搭建环境可看snapshot目录下抓图。
 
-SourceCode at: https://github.com/ryebread/pome
-Run it : node app-simple.js
+## Structure:
+* database: 数据库设计
+* snapshot: 示例运行演示
+
+## Resource:
+* SourceCode : https://github.com/ryebread/pome
+* Run it : node app-simple.js
